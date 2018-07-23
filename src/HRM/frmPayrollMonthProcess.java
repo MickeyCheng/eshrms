@@ -128,7 +128,6 @@ DbConnection DbConn = new DbConnection();
         jLabel19 = new javax.swing.JLabel();
         cmbYear = new javax.swing.JComboBox<>();
         txtMonthdays = new javax.swing.JTextField();
-        txtMonthAbsent = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -160,7 +159,7 @@ DbConnection DbConn = new DbConnection();
         ));
         jScrollPane1.setViewportView(tableAttendance);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 470, 120));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 470, 360));
 
         jButton4.setBackground(new java.awt.Color(51, 153, 0));
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
@@ -197,10 +196,7 @@ DbConnection DbConn = new DbConnection();
         jPanel2.add(cmbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, 110, -1));
 
         txtMonthdays.setText("jTextField1");
-        jPanel2.add(txtMonthdays, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, -1, -1));
-
-        txtMonthAbsent.setText("jTextField2");
-        jPanel2.add(txtMonthAbsent, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 190, -1, -1));
+        jPanel2.add(txtMonthdays, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 90, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 490, 580));
 
@@ -315,24 +311,28 @@ Vector headers = new Vector();
         FetchBasicSalary();
         //save to payout
         try{
-            DbConn.SQLQuery = "insert into tblpayout (po_empname,po_empid,po_empdepartment,po_empdesignation,po_basicsalary,"
-                    + "po_datemonth,po_dateyear,po_absent,po_processedby,po_finalbasic) values(?,?,?,?,?,?,?,?,?,?)";
-            DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
-            DbConn.pstmt.setString(1, cmbEmployee.getSelectedItem().toString());
-            DbConn.pstmt.setString(2, ShowEmpID);
-            DbConn.pstmt.setString(3, ShowDepartment);
-            DbConn.pstmt.setString(4, ShowDesignation);
-            DbConn.pstmt.setDouble(5, BasicSalary);
-            DbConn.pstmt.setString(6, cmbMonth.getSelectedItem().toString());
-            DbConn.pstmt.setString(7, cmbYear.getSelectedItem().toString());
-            DbConn.pstmt.setInt(8, Integer.parseInt(txtMonthAbsent.getText()));
-            DbConn.pstmt.setString(9, "Admin");
-            //get Calculation basic: basic / monthdays * absentdays
-            double GetPerDay = BasicSalary / Integer.parseInt(txtMonthdays.getText());
-            double GetAbsentCalc = GetPerDay * Integer.parseInt(txtMonthAbsent.getText());
-            DbConn.pstmt.setDouble(10, Double.parseDouble(DbConn.df.format(BasicSalary - GetAbsentCalc)));
-            DbConn.pstmt.execute();
-            DbConn.pstmt.close();
+            int i = 0;
+            while (i<tableAttendance.getRowCount()){
+                DbConn.SQLQuery = "insert into tblpayout (po_empname,po_empid,po_empdepartment,po_empdesignation,po_basicsalary,"
+                        + "po_datemonth,po_dateyear,po_absent,po_processedby,po_finalbasic) values(?,?,?,?,?,?,?,?,?,?)";
+                DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
+                DbConn.pstmt.setString(1, tableAttendance.getModel().getValueAt(i, 0).toString());
+                DbConn.pstmt.setString(2, tableAttendance.getModel().getValueAt(i, 1).toString());
+                DbConn.pstmt.setString(3, tableAttendance.getModel().getValueAt(i, 2).toString());
+                DbConn.pstmt.setString(4, tableAttendance.getModel().getValueAt(i, 3).toString());
+                DbConn.pstmt.setDouble(5, Double.parseDouble(tableAttendance.getModel().getValueAt(i, 4).toString()));
+                DbConn.pstmt.setString(6, cmbMonth.getSelectedItem().toString());
+                DbConn.pstmt.setString(7, cmbYear.getSelectedItem().toString());
+                DbConn.pstmt.setInt(8, Integer.parseInt(tableAttendance.getModel().getValueAt(i, 5).toString()));
+                DbConn.pstmt.setString(9, "Admin");
+                //get Calculation basic: basic / monthdays * absentdays
+                double GetPerDay = Double.parseDouble(tableAttendance.getModel().getValueAt(i, 4).toString()) / Integer.parseInt(txtMonthdays.getText());
+                double GetAbsentCalc = GetPerDay * Integer.parseInt(tableAttendance.getModel().getValueAt(i, 5).toString());
+                DbConn.pstmt.setDouble(10, Double.parseDouble(DbConn.df.format(Double.parseDouble(tableAttendance.getModel().getValueAt(i, 4).toString()) - GetAbsentCalc)));
+                DbConn.pstmt.execute();
+                DbConn.pstmt.close();
+                i++;
+            }
             JOptionPane.showMessageDialog(this, "Payroll Submitted");
         }catch(SQLException e){
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -388,7 +388,6 @@ Vector headers = new Vector();
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableAttendance;
-    private javax.swing.JTextField txtMonthAbsent;
     private javax.swing.JTextField txtMonthdays;
     // End of variables declaration//GEN-END:variables
 }
