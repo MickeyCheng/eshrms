@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8f7a4fc6-3560-4a51-a11b-cf372bc25749">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="184"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="CandidateName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="StartDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Position" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SalaryAmount" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="GeneratedBy" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="TitleSignature" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="TitleDepartment" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from tblcandidate]]>
+	</queryString>
+	<field name="ca_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ca_position" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="95" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="170" y="0" width="263" height="62" uuid="ccd3c30b-8c66-40b3-ade9-f133c9d2e737"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Coffee Title]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="219" y="62" width="196" height="22" uuid="bd6fb5e7-8b37-47ce-b3d4-07df92375652"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[LETTER OF INTENT]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="65" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="8c3ec861-cc38-441a-bd0c-c40c2c8019bc"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="4" y="34" width="37" height="20" uuid="63886594-ecbd-4fe1-a151-08d4d829790a"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Dear ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="41" y="34" width="312" height="20" uuid="5282698c-e69b-41fd-be21-d4340ec18159"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CandidateName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="4" y="1" width="197" height="20" forecolor="#736343" uuid="832fb826-899b-49a4-9a88-c3d3f59a41d0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="442" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="0" width="352" height="25" uuid="688fcc59-23fe-4b0a-8d94-25adcbedb22a"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[It is with great pleasure that we offer you the position of ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="154" width="551" height="60" uuid="e2a5f723-87af-4791-b089-7f62192b92ad"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[If you choose to accept this job offer, please make a signed copy of this letter and return it to me at your earliest convenience. We look forward to welcoming you as part of the iSoft Team!]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="247" width="71" height="23" uuid="74f909ff-be38-4fe6-a58c-1e67bd28261f"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Regards,]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="353" y="0" width="199" height="25" uuid="4c7372ee-5219-44f9-b399-905b1ef69288"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Position}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="25" width="548" height="49" uuid="d9350322-6e86-4afd-ac15-6800a8a159b5"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[with iSoft Information Technology. Your experience and enthusiasm will be an asset to our company.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="117" y="96" width="194" height="20" uuid="4c266ea9-1a29-42c0-9f65-7edd203eb8f8"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{StartDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="74" width="197" height="21" uuid="3a0f7223-633c-4f87-b446-d32c29d5d1d7"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[The particulars are as follows:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="95" width="113" height="21" uuid="ed94aa00-88d0-4c7d-97cb-59f05e4b5348"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Start Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="116" width="113" height="21" uuid="ae0ff82b-b70a-448c-9e29-21e22cca10bd"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Starting Salary:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="116" width="31" height="21" uuid="b818d622-c5a9-4c96-a3be-5f2927f4fd9d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[BHD]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="150" y="116" width="163" height="20" uuid="36d7941f-087c-477b-a74b-beb9d8960a24"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SalaryAmount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="270" width="197" height="20" uuid="c50f84a2-b60e-46d5-aed9-03d24a6b1969"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{GeneratedBy}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="290" width="194" height="20" forecolor="#736343" uuid="67eaa341-9056-42a0-bfdb-2ccdcf1699a9"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TitleSignature}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="340" width="197" height="89" uuid="9fa2228d-c400-48fe-aaed-1eab7382d298"/>
+				<imageExpression><![CDATA["src\\Images\\CompanyLogo.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="0" y="310" width="197" height="20" forecolor="#736343" uuid="a1af8d61-8e7e-40da-91d0-2d361de6834c"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TitleDepartment}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="99c680d7-77bc-40a8-8ac6-aa588e26f5d7"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="80814c27-1260-4d75-b7d3-49d2121832e8"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="94b18ea9-ec08-4fa9-9fe8-e3e139f3389d"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="46175a51-0ee5-4f6d-81b3-a6e06965c0c5"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="a825601b-2d64-475c-988b-6c114b2bb357"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
