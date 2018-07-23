@@ -51,6 +51,7 @@ JButton btnView = new JButton();
         DisableAllChoice();
         DisableCheckBoxes();
         DisplayCount();
+        setLocationRelativeTo(null);
         tableCandidate.setDefaultEditor(Object.class, null);
         cmbSearch.addActionListener(new ActionListener() {
             @Override

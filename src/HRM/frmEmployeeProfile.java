@@ -51,6 +51,7 @@ public static String PromoteID,PromoteName,PromoteCurrentDes,PromoteProposedDes,
         SetTablesSorter();
         setDefaultCloseOperation(frmEmployeeProfile.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
         txtSearch.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {TextSearchListen();}

@@ -252,7 +252,7 @@
 				<text><![CDATA[DATE RECEIVED:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement style="Detail" x="117" y="53" width="152" height="15" uuid="d815a5c5-d490-4485-abea-834b4de93f7f"/>
+				<reportElement style="Detail" x="118" y="53" width="152" height="15" uuid="d815a5c5-d490-4485-abea-834b4de93f7f"/>
 				<textFieldExpression><![CDATA[$F{ca_datereceived}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -260,7 +260,7 @@
 				<text><![CDATA[SOURCE:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement style="Detail" x="117" y="68" width="165" height="15" uuid="296cef0a-856e-426a-aae1-e47c2c714f85"/>
+				<reportElement style="Detail" x="118" y="68" width="165" height="15" uuid="296cef0a-856e-426a-aae1-e47c2c714f85"/>
 				<textFieldExpression><![CDATA[$F{ca_cvsource}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -268,7 +268,7 @@
 				<text><![CDATA[REFERRED BY:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement style="Detail" x="117" y="83" width="165" height="15" uuid="45b3ae13-70c4-4c6d-87bc-85ed0a9e14ef"/>
+				<reportElement style="Detail" x="118" y="83" width="165" height="15" uuid="45b3ae13-70c4-4c6d-87bc-85ed0a9e14ef"/>
 				<textFieldExpression><![CDATA[$F{ca_referredby}]]></textFieldExpression>
 			</textField>
 		</band>

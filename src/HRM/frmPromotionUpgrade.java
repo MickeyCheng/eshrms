@@ -16,6 +16,7 @@ public class frmPromotionUpgrade extends javax.swing.JFrame {
      */
     public frmPromotionUpgrade() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

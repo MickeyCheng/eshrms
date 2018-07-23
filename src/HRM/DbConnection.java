@@ -19,6 +19,8 @@ public class DbConnection {
     SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat sdfDateDisplay = new SimpleDateFormat("d MMM yyyy");
     DecimalFormat df = new DecimalFormat("0.000");
+    
+   String aaa = "";
     public void DoConnect()
     {
         try{

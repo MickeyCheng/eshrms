@@ -26,6 +26,7 @@ DbConnection DbConn = new DbConnection();
         FillDepartment();
         FillDesignation();
         setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(frmHRReports.DISPOSE_ON_CLOSE);
     }
     private void FillDesignation(){

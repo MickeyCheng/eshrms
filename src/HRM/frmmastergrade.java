@@ -13,6 +13,7 @@ boolean add,edit;
         FillTable();
         txtDescription.setEnabled(false);
         tableMaster.setAutoCreateRowSorter(true);
+        setLocationRelativeTo(null);
     }
     private void FillTable(){
         try{

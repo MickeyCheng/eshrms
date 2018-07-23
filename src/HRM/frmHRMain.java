@@ -6,6 +6,7 @@ public class frmHRMain extends javax.swing.JFrame {
 
     public frmHRMain() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

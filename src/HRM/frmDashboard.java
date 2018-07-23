@@ -30,6 +30,7 @@ String getApprovingPersonnel;
         dateReturn.setEnabled(false);
         radAnnualTicket.setSelected(true);
         //PanelWorkLoad.setVisible(false);
+        setLocationRelativeTo(null);
         dateEndLeave.getDateEditor().addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {

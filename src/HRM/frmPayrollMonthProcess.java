@@ -29,6 +29,8 @@ public class frmPayrollMonthProcess extends javax.swing.JFrame {
     public frmPayrollMonthProcess() {
         initComponents();
         FillComboMonthsAndYears();
+        setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
     }
     private void FillComboMonthsAndYears(){
         cmbMonth.removeAllItems();

@@ -23,6 +23,7 @@ JComboBox cmbAllowance = new JComboBox();
         FillProposedDesignation();
         FillDepartment();
         setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
         datePropose.setDate(new Date());
         cmbEmployeeName.addActionListener(new ActionListener() {
             @Override

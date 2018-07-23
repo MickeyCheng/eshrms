@@ -192,7 +192,7 @@
 				<textFieldExpression><![CDATA[$P{TitleSignature}]]></textFieldExpression>
 			</textField>
 			<image scaleImage="FillFrame">
-				<reportElement x="0" y="340" width="197" height="89" uuid="9fa2228d-c400-48fe-aaed-1eab7382d298"/>
+				<reportElement x="0" y="341" width="197" height="89" uuid="9fa2228d-c400-48fe-aaed-1eab7382d298"/>
 				<imageExpression><![CDATA["src\\Images\\CompanyLogo.jpg"]]></imageExpression>
 			</image>
 			<textField>

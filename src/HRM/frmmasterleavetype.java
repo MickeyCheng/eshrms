@@ -15,6 +15,7 @@ boolean add,edit;
         tableMaster.setAutoCreateRowSorter(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(frmmasterleavetype.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
     }
     private void FillTable(){
         try{

@@ -14,6 +14,7 @@ boolean add,edit;
         txtDescription.setEnabled(false);
         tableMaster.setAutoCreateRowSorter(true);
         setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(frmmasterticketdestination.DISPOSE_ON_CLOSE);
     }
     private void FillTable(){

@@ -45,6 +45,7 @@ public class frmCandidate extends javax.swing.JFrame {
     int GetCandidateOnBoardNumber;
     public frmCandidate() {
         initComponents();
+        setLocationRelativeTo(null);
         DbConn.DoConnect();
         FillAllMethod();
         setLocationRelativeTo(null);

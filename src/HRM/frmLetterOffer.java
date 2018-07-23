@@ -29,6 +29,7 @@ String GetDesignation, GetDepartment;
         FillPosition();
         FillGeneratedBy();
         setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
         tableOffer.setDefaultEditor(Object.class, null);
         dateStart.setDate(DbConn.DateToday);
         txtName.getDocument().addDocumentListener(new DocumentListener() {
