@@ -53,6 +53,7 @@ String getApprovingPersonnel;
             DbConn.rs = DbConn.pstmt.executeQuery();
             tableTemplateRequest.setModel(DbUtils.resultSetToTableModel(DbConn.rs));
             DbConn.pstmt.close();
+            System.out.println("test");
         }catch(SQLException e){
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
