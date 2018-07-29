@@ -1272,7 +1272,7 @@ public class frmCandidate extends javax.swing.JFrame {
         tableCandidate.getColumnModel().getColumn(6).setHeaderValue("POSITION APPLIED");
     }
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if (attachedCV!=true && getImagePath.equals(""))
+        if (attachedCV == false && getImagePath.equals(""))
         {
             int itemSelect = JOptionPane.showConfirmDialog(this, "No CV attached. Proceed?","CV Bank",JOptionPane.YES_NO_OPTION);
             if (itemSelect == JOptionPane.NO_OPTION)
@@ -1344,10 +1344,10 @@ public class frmCandidate extends javax.swing.JFrame {
                 DbConn.pstmt.setString(15, "Admin");
 //                DbConn.pstmt.setString(15, DbConn.GetLoggedInUserName);
                 DbConn.pstmt.setString(16, DbConn.sdfDate.format(new Date()));
-                if (!getImagePath.equals("")){
-                    DbConn.pstmt.setString(17,getImagePath);
-                }else{
+                if (getImagePath == null){
                     DbConn.pstmt.setString(17,"No CV Attached");
+                }else{
+                    DbConn.pstmt.setString(17,getImagePath);
                 }
                 DbConn.pstmt.setString(18, cmbDepartment.getSelectedItem().toString());
                 DbConn.pstmt.setString(19, tableCandidate.getModel().getValueAt(ba,0).toString());

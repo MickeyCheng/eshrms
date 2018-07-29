@@ -210,7 +210,7 @@ DbConnection DbConn = new DbConnection();
 
         jPanel5.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, 360));
 
-        jButton4.setBackground(new java.awt.Color(51, 153, 0));
+        jButton4.setBackground(new java.awt.Color(92, 184, 92));
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Print");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -220,7 +220,7 @@ DbConnection DbConn = new DbConnection();
         });
         jPanel5.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 80, -1));
 
-        jButton1.setBackground(new java.awt.Color(51, 51, 255));
+        jButton1.setBackground(new java.awt.Color(51, 122, 183));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("View");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -239,7 +239,7 @@ DbConnection DbConn = new DbConnection();
         jLabel5.setText("Count:");
         jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 50, -1));
 
-        jButton6.setBackground(new java.awt.Color(204, 102, 0));
+        jButton6.setBackground(new java.awt.Color(240, 173, 78));
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("View All");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -280,7 +280,7 @@ DbConnection DbConn = new DbConnection();
 
         jPanel6.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, 360));
 
-        jButton5.setBackground(new java.awt.Color(51, 153, 0));
+        jButton5.setBackground(new java.awt.Color(92, 184, 92));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Print");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -290,7 +290,7 @@ DbConnection DbConn = new DbConnection();
         });
         jPanel6.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 80, -1));
 
-        jButton2.setBackground(new java.awt.Color(51, 51, 255));
+        jButton2.setBackground(new java.awt.Color(51, 122, 183));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("View");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -309,7 +309,7 @@ DbConnection DbConn = new DbConnection();
         jLabel7.setText("Count:");
         jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 50, -1));
 
-        jButton3.setBackground(new java.awt.Color(204, 102, 0));
+        jButton3.setBackground(new java.awt.Color(240, 173, 78));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("View All");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -334,7 +334,7 @@ DbConnection DbConn = new DbConnection();
         cmbDesignation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel4.add(cmbDesignation, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 170, -1));
 
-        jButton7.setBackground(new java.awt.Color(51, 51, 255));
+        jButton7.setBackground(new java.awt.Color(51, 122, 183));
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("View");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -344,7 +344,7 @@ DbConnection DbConn = new DbConnection();
         });
         jPanel4.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, 70, -1));
 
-        jButton8.setBackground(new java.awt.Color(51, 153, 0));
+        jButton8.setBackground(new java.awt.Color(92, 184, 92));
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("Print");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -354,7 +354,7 @@ DbConnection DbConn = new DbConnection();
         });
         jPanel4.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 80, -1));
 
-        jButton9.setBackground(new java.awt.Color(204, 102, 0));
+        jButton9.setBackground(new java.awt.Color(240, 173, 78));
         jButton9.setForeground(new java.awt.Color(255, 255, 255));
         jButton9.setText("View All");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -408,7 +408,7 @@ DbConnection DbConn = new DbConnection();
         cmbYearPayroll.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel8.add(cmbYearPayroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 100, -1));
 
-        btnViewPayroll.setBackground(new java.awt.Color(0, 0, 255));
+        btnViewPayroll.setBackground(new java.awt.Color(51, 122, 183));
         btnViewPayroll.setForeground(new java.awt.Color(255, 255, 255));
         btnViewPayroll.setText("View");
         btnViewPayroll.addActionListener(new java.awt.event.ActionListener() {
@@ -425,7 +425,7 @@ DbConnection DbConn = new DbConnection();
         cmbEmployeePayroll.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel8.add(cmbEmployeePayroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 150, -1));
 
-        btnPrintPayroll.setBackground(new java.awt.Color(51, 153, 0));
+        btnPrintPayroll.setBackground(new java.awt.Color(92, 184, 92));
         btnPrintPayroll.setForeground(new java.awt.Color(255, 255, 255));
         btnPrintPayroll.setText("Print");
         btnPrintPayroll.addActionListener(new java.awt.event.ActionListener() {

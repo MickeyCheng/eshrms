@@ -149,7 +149,7 @@ DbConnection DbConn = new DbConnection();
         cmbYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(cmbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 100, -1));
 
-        jButton1.setBackground(new java.awt.Color(0, 0, 255));
+        jButton1.setBackground(new java.awt.Color(51, 122, 183));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("View");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

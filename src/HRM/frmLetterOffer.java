@@ -174,6 +174,8 @@ String GetDesignation, GetDepartment;
         cmbProposedBy.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel3.add(cmbProposedBy, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 100, 270, -1));
 
+        jButton1.setBackground(new java.awt.Color(92, 184, 92));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Generate");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

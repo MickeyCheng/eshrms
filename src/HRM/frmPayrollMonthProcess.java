@@ -163,7 +163,7 @@ DbConnection DbConn = new DbConnection();
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 470, 340));
 
-        jButton4.setBackground(new java.awt.Color(51, 153, 0));
+        jButton4.setBackground(new java.awt.Color(92, 184, 92));
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Upload Attendance");
         jButton4.addActionListener(new java.awt.event.ActionListener() {

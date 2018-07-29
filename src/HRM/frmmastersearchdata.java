@@ -84,6 +84,8 @@ boolean add,edit;
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 430, 160));
         jPanel1.add(txtDescription, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 330, -1));
 
+        jButton1.setBackground(new java.awt.Color(51, 122, 183));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Add");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,6 +94,8 @@ boolean add,edit;
         });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, 50));
 
+        jButton2.setBackground(new java.awt.Color(240, 173, 78));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Edit");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,6 +104,8 @@ boolean add,edit;
         });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, -1, 50));
 
+        jButton3.setBackground(new java.awt.Color(92, 184, 92));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Save");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,6 +114,8 @@ boolean add,edit;
         });
         jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, -1, 50));
 
+        jButton4.setBackground(new java.awt.Color(217, 83, 79));
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Delete");
         jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 60, -1, 50));
 
