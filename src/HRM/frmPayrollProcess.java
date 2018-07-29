@@ -1,25 +1,93 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package HRM;
 
-/**
- *
- * @author USER
- */
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import net.proteanit.sql.DbUtils;
+import org.eclipse.jdt.internal.compiler.ast.DoStatement;
+
 public class frmPayrollProcess extends javax.swing.JFrame {
 
-    /**
-     * Creates new form frmPayrollProcess
-     */
+DbConnection DbConn = new DbConnection();
     public frmPayrollProcess() {
         initComponents();
+        DbConn.DoConnect();
+        FillMonthsAndYears();
+        tablePayroll.setDefaultEditor(Object.class, null);
         setLocationRelativeTo(null);
-        setLocationRelativeTo(null);
+        SetTableHeaders();
+        setDefaultCloseOperation(frmPayrollProcess.DISPOSE_ON_CLOSE);
+        tablePayroll.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent mouseEvent) {
+        JTable table =(JTable) mouseEvent.getSource();
+        Point point = mouseEvent.getPoint();
+        int row = table.rowAtPoint(point);
+        if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
+            DisplayTotalSalary();
+            GetTotalPayout();
+        }
     }
-
+    });
+    }
+    private void SetTableHeaders(){
+        tablePayroll.getColumnModel().getColumn(0).setHeaderValue("ID");
+        tablePayroll.getColumnModel().getColumn(1).setHeaderValue("NAME");
+        tablePayroll.getColumnModel().getColumn(2).setHeaderValue("EMP ID");
+        tablePayroll.getColumnModel().getColumn(3).setHeaderValue("DEPARTMENT");
+        tablePayroll.getColumnModel().getColumn(4).setHeaderValue("DESIGNATIOn");
+        tablePayroll.getColumnModel().getColumn(5).setHeaderValue("FINAL BASIC");
+        
+        tableAllowance.getColumnModel().getColumn(0).setHeaderValue("TYPE");
+        tableAllowance.getColumnModel().getColumn(1).setHeaderValue("AMOUNT");
+    }
+    
+    
+    private void GetTotalPayout(){
+        int row = tablePayroll.getSelectedRow();
+        int ba = tablePayroll.convertRowIndexToModel(row);
+        lblTotalPayout.setText(tablePayroll.getModel().getValueAt(ba, 5).toString());
+    }
+    private void DisplayTotalSalary(){
+        int row = tablePayroll.getSelectedRow();
+        int ba = tablePayroll.convertRowIndexToModel(row);
+        try{
+            DbConn.SQLQuery = "select al_type,al_amount from tblallowance where al_empname =? and al_empid=?";
+            DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
+            DbConn.pstmt.setString(1, tablePayroll.getModel().getValueAt(ba, 1).toString());
+            DbConn.pstmt.setString(2, tablePayroll.getModel().getValueAt(ba, 2).toString());
+            DbConn.rs = DbConn.pstmt.executeQuery();
+            tableAllowance.setModel(DbUtils.resultSetToTableModel(DbConn.rs));
+            lblName.setText(tablePayroll.getModel().getValueAt(ba, 1).toString());
+            lblID.setText(tablePayroll.getModel().getValueAt(ba, 2).toString());
+            DbConn.pstmt.close();
+            SetTableHeaders();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    private void FillMonthsAndYears(){
+        cmbMonth.removeAllItems();
+        cmbYear.removeAllItems();
+        cmbStatus.removeAllItems();
+        try{
+            DbConn.pstmt = DbConn.conn.prepareStatement("select distinct(po_datemonth),(po_dateyear),(po_status) from tblpayout");
+            DbConn.rs = DbConn.pstmt.executeQuery();
+            while (DbConn.rs.next()){
+                cmbMonth.addItem(DbConn.rs.getString(1));
+                cmbYear.addItem(DbConn.rs.getString(2));
+                cmbStatus.addItem("Submitted");
+                cmbStatus.addItem("Processed");
+            }
+            DbConn.pstmt.close();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,17 +100,139 @@ public class frmPayrollProcess extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        cmbMonth = new javax.swing.JComboBox<>();
+        lblName = new javax.swing.JLabel();
+        cmbYear = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablePayroll = new javax.swing.JTable();
+        jLabel20 = new javax.swing.JLabel();
+        cmbStatus = new javax.swing.JComboBox<>();
+        jSeparator2 = new javax.swing.JSeparator();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableAllowance = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        lblID = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        lblTotalPayout = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(214, 214, 194));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 880, 10));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 860, 10));
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(102, 102, 0));
         jLabel4.setText("Payroll Process");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+
+        jPanel2.setBackground(new java.awt.Color(214, 214, 194));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel18.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel18.setText("Status");
+        jPanel2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 60, 20));
+
+        cmbMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(cmbMonth, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 100, -1));
+
+        lblName.setForeground(new java.awt.Color(0, 51, 51));
+        lblName.setText("Name:");
+        jPanel2.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 20, 60, 20));
+
+        cmbYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(cmbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 100, -1));
+
+        jButton1.setBackground(new java.awt.Color(0, 0, 255));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("View");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
+
+        tablePayroll.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"
+            }
+        ));
+        jScrollPane1.setViewportView(tablePayroll);
+
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, -1, 350));
+
+        jLabel20.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel20.setText("Month:");
+        jPanel2.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 60, 20));
+
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, 100, -1));
+
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jSeparator2.setToolTipText("");
+        jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 20, 10, 430));
+
+        tableAllowance.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2"
+            }
+        ));
+        jScrollPane2.setViewportView(tableAllowance);
+
+        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 100, 380, 350));
+
+        jButton2.setText("Process");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 40, -1, -1));
+
+        jLabel21.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel21.setText("Year:");
+        jPanel2.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 60, 20));
+
+        jLabel22.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel22.setText("ID:");
+        jPanel2.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 50, 60, 20));
+
+        jLabel23.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel23.setText("Name:");
+        jPanel2.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 20, 60, 20));
+
+        lblID.setForeground(new java.awt.Color(0, 51, 51));
+        lblID.setText("Name:");
+        jPanel2.add(lblID, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 50, 60, 20));
+
+        jLabel24.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel24.setText("Total:");
+        jPanel2.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 70, 60, 20));
+
+        lblTotalPayout.setForeground(new java.awt.Color(0, 51, 51));
+        lblTotalPayout.setText("Name:");
+        jPanel2.add(lblTotalPayout, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 70, 60, 20));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 860, 450));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -57,13 +247,134 @@ public class frmPayrollProcess extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        try{
+            DbConn.SQLQuery = "select po_seqno,po_empname,po_empid,po_empdepartment,po_empdesignation,po_finalbasic "
+                    + "from tblpayout where po_datemonth=? and po_dateyear=? and po_status=?";
+            DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
+            DbConn.pstmt.setString(1, cmbMonth.getSelectedItem().toString());
+            DbConn.pstmt.setString(2, cmbYear.getSelectedItem().toString());
+            DbConn.pstmt.setString(3, cmbStatus.getSelectedItem().toString());
+            DbConn.rs = DbConn.pstmt.executeQuery();
+            tablePayroll.setModel(DbUtils.resultSetToTableModel(DbConn.rs));
+            DbConn.pstmt.close();
+            SetTableHeaders();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int row = tablePayroll.getSelectedRow();
+        int ba = tablePayroll.convertRowIndexToModel(row);
+        int i =0;
+        Double GetTotalAmount = 0.0;
+            int b =0;
+            while (b < tableAllowance.getRowCount()){
+                GetTotalAmount+= Double.parseDouble(tableAllowance.getModel().getValueAt(b, 1).toString());
+                b++;
+            }
+        while (i<tableAllowance.getRowCount()){
+        try{
+            DbConn.SQLQuery = "insert into tblpayrolldetails (pd_empname,pd_empid,pd_poid,pd_datemonth,"
+                    + "pd_dateyear,pd_processedby,pd_date,pd_description,pd_amount,"
+                    + "pd_basicsalary,pd_finalbasic,pd_finalpayout) "
+                    + "values (?,?,?,?,?,?,?,?,?,?,?,?) ";
+            DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
+            DbConn.pstmt.setString(1,lblName.getText());
+            DbConn.pstmt.setString(2,lblID.getText());
+            DbConn.pstmt.setString(3,tablePayroll.getModel().getValueAt(ba, 0).toString());
+            DbConn.pstmt.setString(4,cmbMonth.getSelectedItem().toString());
+            DbConn.pstmt.setString(5,cmbYear.getSelectedItem().toString());
+            DbConn.pstmt.setString(6,"Admin");
+            DbConn.pstmt.setString(7,DbConn.sdfDate.format(new Date()));
+            DbConn.pstmt.setString(8,tableAllowance.getModel().getValueAt(i, 0).toString());
+            DbConn.pstmt.setString(9,tableAllowance.getModel().getValueAt(i, 1).toString());
+            DbConn.pstmt.setString(10,"0");
+            DbConn.pstmt.setDouble(11,Double.parseDouble(DbConn.df.format(Double.parseDouble(lblTotalPayout.getText()))));
+            DbConn.pstmt.setDouble(12,Double.parseDouble(DbConn.df.format(GetTotalAmount + Double.parseDouble(lblTotalPayout.getText()))));
+            DbConn.pstmt.execute();
+            DbConn.pstmt.close();
+            i++;
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        }
+        //update table payout from submitted to processed
+        try{
+            DbConn.SQLQuery = "update tblpayout set po_status =? where po_seqno=?";
+            DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
+            DbConn.pstmt.setString(1, "Processed");
+            DbConn.pstmt.setString(2, tablePayroll.getModel().getValueAt(ba, 0).toString());
+            DbConn.pstmt.executeUpdate();
+            DbConn.pstmt.close();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        //save Basic Salary to payout details
+         SetTableHeaders();
+        JOptionPane.showMessageDialog(this, "Payroll Procecess for " + lblName.getText() 
+                    +" for the period of " + cmbMonth.getSelectedItem().toString() + " " + cmbYear.getSelectedItem().toString());
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+   private void SaveBasicSalary(){
+    int i =0;
+     Double GetTotalAmount = 0.0;
+         int b =0;
+         while (b < tableAllowance.getRowCount())
+         {
+             GetTotalAmount+= Double.parseDouble(tableAllowance.getModel().getValueAt(b, 1).toString());
+             b++;
+         }
+   //get the basic salary
+    int row = tablePayroll.getSelectedRow();
+    int ba = tablePayroll.convertRowIndexToModel(row);
+   double GetBasic=0.0;
+   try{
+       DbConn.pstmt = DbConn.conn.prepareStatement("select * from tblbasicsalary where bs_empid =? and bs_empname=?");
+       DbConn.pstmt.setString(1, lblID.getText());
+       DbConn.pstmt.setString(2,lblName.getText());
+       DbConn.rs = DbConn.pstmt.executeQuery();
+       if (DbConn.rs.next()){
+           GetBasic = DbConn.rs.getDouble("bs_salary");
+       }
+       DbConn.pstmt.close();
+   }catch(SQLException e){
+       JOptionPane.showMessageDialog(this, e.getMessage());
+   }
+   //save basic salary in tblpayrolldetails
+   try{
+            DbConn.SQLQuery = "insert into tblpayrolldetails (pd_empname,pd_empid,pd_poid,pd_datemonth,"
+                    + "pd_dateyear,pd_processedby,pd_date,pd_description,pd_amount,"
+                    + "pd_basicsalary,pd_finalbasic,pd_finalpayout) "
+                    + "values (?,?,?,?,?,?,?,?,?,?,?,?) ";
+            DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
+            DbConn.pstmt.setString(1,lblName.getText());
+            DbConn.pstmt.setString(2,lblID.getText());
+            DbConn.pstmt.setString(3,tablePayroll.getModel().getValueAt(ba, 0).toString());
+            DbConn.pstmt.setString(4,cmbMonth.getSelectedItem().toString());
+            DbConn.pstmt.setString(5,cmbYear.getSelectedItem().toString());
+            DbConn.pstmt.setString(6,"Admin");
+            DbConn.pstmt.setString(7,DbConn.sdfDate.format(new Date()));
+            DbConn.pstmt.setString(8,"Basic Salary");
+            DbConn.pstmt.setString(9,tableAllowance.getModel().getValueAt(i, 1).toString());
+            DbConn.pstmt.setString(10,"0");
+            DbConn.pstmt.setDouble(11,Double.parseDouble(DbConn.df.format(Double.parseDouble(lblTotalPayout.getText()))));
+            DbConn.pstmt.setDouble(12,Double.parseDouble(DbConn.df.format(GetTotalAmount + Double.parseDouble(lblTotalPayout.getText()))));
+            DbConn.pstmt.execute();
+            DbConn.pstmt.close();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+   }
     /**
      * @param args the command line arguments
      */
@@ -100,8 +411,28 @@ public class frmPayrollProcess extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cmbMonth;
+    private javax.swing.JComboBox<String> cmbStatus;
+    private javax.swing.JComboBox<String> cmbYear;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lblID;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblTotalPayout;
+    private javax.swing.JTable tableAllowance;
+    private javax.swing.JTable tablePayroll;
     // End of variables declaration//GEN-END:variables
 }
