@@ -25,9 +25,56 @@ DbConnection DbConn = new DbConnection();
         FillNationality();
         FillDepartment();
         FillDesignation();
+        FillEmployee();
+        FillMonthsAndYears();
+        SetHeaderTables();
         setLocationRelativeTo(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(frmHRReports.DISPOSE_ON_CLOSE);
+    }
+    private void SetHeaderTables(){
+        tableNationality.getColumnModel().getColumn(0).setHeaderValue("NATIONALITY");
+        tableNationality.getColumnModel().getColumn(1).setHeaderValue("NAME");
+        tableNationality.getColumnModel().getColumn(2).setHeaderValue("ID");
+        
+         tableDepartment.getColumnModel().getColumn(0).setHeaderValue("ID");   
+         tableDepartment.getColumnModel().getColumn(1).setHeaderValue("NAME");   
+         tableDepartment.getColumnModel().getColumn(2).setHeaderValue("DESIGNATION");   
+         tableDepartment.getColumnModel().getColumn(3).setHeaderValue("TYPE");   
+      
+         tableDesignation.getColumnModel().getColumn(0).setHeaderValue("ID");   
+         tableDesignation.getColumnModel().getColumn(1).setHeaderValue("NAME");   
+         tableDesignation.getColumnModel().getColumn(2).setHeaderValue("DEPARTMENT");   
+         tableDesignation.getColumnModel().getColumn(3).setHeaderValue("TYPE");   
+    }
+    private void FillMonthsAndYears(){
+        cmbMonthPayroll.removeAllItems();
+        cmbYearPayroll.removeAllItems();
+        
+        try{
+            DbConn.pstmt = DbConn.conn.prepareStatement("select distinct(po_datemonth),(po_dateyear),(po_status) from tblpayout");
+            DbConn.rs = DbConn.pstmt.executeQuery();
+            while (DbConn.rs.next()){
+                cmbMonthPayroll.addItem(DbConn.rs.getString(1));
+                cmbYearPayroll.addItem(DbConn.rs.getString(2));
+                }
+            DbConn.pstmt.close();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    private void FillEmployee(){
+        cmbEmployeePayroll.removeAllItems();
+        try{
+            DbConn.pstmt  = DbConn.conn.prepareStatement("Select em_name from tblemployeeprofile order by em_name");
+            DbConn.rs = DbConn.pstmt.executeQuery();
+            while (DbConn.rs.next()){
+                cmbEmployeePayroll.addItem(DbConn.rs.getString(1));
+            }
+            DbConn.pstmt.close();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
     private void FillDesignation(){
         cmbDesignation.removeAllItems();
@@ -114,6 +161,16 @@ DbConnection DbConn = new DbConnection();
         tableDesignation = new javax.swing.JTable();
         lblDesignationCount = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        cmbMonthPayroll = new javax.swing.JComboBox<>();
+        jLabel21 = new javax.swing.JLabel();
+        cmbYearPayroll = new javax.swing.JComboBox<>();
+        btnViewPayroll = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
+        cmbEmployeePayroll = new javax.swing.JComboBox<>();
+        btnPrintPayroll = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -332,6 +389,56 @@ DbConnection DbConn = new DbConnection();
 
         jTabbedPane1.addTab("Designation", jPanel4);
 
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel8.setBackground(new java.awt.Color(214, 214, 194));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel20.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel20.setText("Month:");
+        jPanel8.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 60, 20));
+
+        cmbMonthPayroll.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel8.add(cmbMonthPayroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 100, -1));
+
+        jLabel21.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel21.setText("Year:");
+        jPanel8.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 60, 20));
+
+        cmbYearPayroll.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel8.add(cmbYearPayroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 100, -1));
+
+        btnViewPayroll.setBackground(new java.awt.Color(0, 0, 255));
+        btnViewPayroll.setForeground(new java.awt.Color(255, 255, 255));
+        btnViewPayroll.setText("View");
+        btnViewPayroll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewPayrollActionPerformed(evt);
+            }
+        });
+        jPanel8.add(btnViewPayroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, 80, -1));
+
+        jLabel18.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel18.setText("Employee:");
+        jPanel8.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 60, 20));
+
+        cmbEmployeePayroll.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel8.add(cmbEmployeePayroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 150, -1));
+
+        btnPrintPayroll.setBackground(new java.awt.Color(51, 153, 0));
+        btnPrintPayroll.setForeground(new java.awt.Color(255, 255, 255));
+        btnPrintPayroll.setText("Print");
+        btnPrintPayroll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintPayrollActionPerformed(evt);
+            }
+        });
+        jPanel8.add(btnPrintPayroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 60, 80, -1));
+
+        jPanel7.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 480, 120));
+
+        jTabbedPane1.addTab("Payroll", jPanel7);
+
         jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 500, 530));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -366,6 +473,7 @@ DbConnection DbConn = new DbConnection();
             DbConn.rs = DbConn.pstmt.executeQuery();
             tableNationality.setModel(DbUtils.resultSetToTableModel(DbConn.rs));
             DbConn.pstmt.close();
+            SetHeaderTables();
             lblNationalityCount.setText(String.valueOf(tableNationality.getRowCount()));
         }catch(SQLException e){
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -399,6 +507,7 @@ DbConnection DbConn = new DbConnection();
             DbConn.rs = DbConn.pstmt.executeQuery();
             tableDepartment.setModel(DbUtils.resultSetToTableModel(DbConn.rs));
             DbConn.pstmt.close();
+            SetHeaderTables();
             lblDepartmentCount.setText(String.valueOf(tableDepartment.getRowCount()));
         }catch(SQLException e){
             JOptionPane.showMessageDialog(this,e.getMessage());
@@ -413,6 +522,7 @@ DbConnection DbConn = new DbConnection();
             DbConn.rs = DbConn.pstmt.executeQuery();
             tableDepartment.setModel(DbUtils.resultSetToTableModel(DbConn.rs));
             DbConn.pstmt.close();
+            SetHeaderTables();
             lblDepartmentCount.setText(String.valueOf(tableDepartment.getRowCount()));
         }catch(SQLException e){
             JOptionPane.showMessageDialog(this,e.getMessage());
@@ -426,6 +536,7 @@ DbConnection DbConn = new DbConnection();
             DbConn.rs = DbConn.pstmt.executeQuery();
             tableNationality.setModel(DbUtils.resultSetToTableModel(DbConn.rs));
             DbConn.pstmt.close();
+            SetHeaderTables();
             lblNationalityCount.setText(String.valueOf(tableNationality.getRowCount()));
         }catch(SQLException e){
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -441,6 +552,7 @@ DbConnection DbConn = new DbConnection();
             DbConn.rs = DbConn.pstmt.executeQuery();
             tableDesignation.setModel(DbUtils.resultSetToTableModel(DbConn.rs));
             DbConn.pstmt.close();
+            SetHeaderTables();
             lblDesignationCount.setText(String.valueOf(tableDesignation.getRowCount()));
         }catch(SQLException e){
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -459,11 +571,77 @@ DbConnection DbConn = new DbConnection();
             DbConn.rs = DbConn.pstmt.executeQuery();
             tableDesignation.setModel(DbUtils.resultSetToTableModel(DbConn.rs));
             DbConn.pstmt.close();
+            SetHeaderTables();
             lblDesignationCount.setText(String.valueOf(tableDesignation.getRowCount()));
         }catch(SQLException e){
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void btnViewPayrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewPayrollActionPerformed
+            //get the amount allowance
+            double GetAllowanceTotal= 0.0, GetFinalBasic = 0.0;
+            try{
+                DbConn.SQLQuery = "select sum(pd_amount) from tblpayrolldetails where pd_empname=? "
+                        + "and pd_datemonth=? and pd_dateyear=?";
+                DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
+                DbConn.pstmt.setString(1, cmbEmployeePayroll.getSelectedItem().toString());
+                DbConn.pstmt.setString(2, cmbMonthPayroll.getSelectedItem().toString());
+                DbConn.pstmt.setString(3, cmbYearPayroll.getSelectedItem().toString());
+                DbConn.rs = DbConn.pstmt.executeQuery();
+                if (DbConn.rs.next()){
+                    GetAllowanceTotal = DbConn.rs.getDouble(1);
+                }
+                DbConn.pstmt.close();
+                System.out.println("total payroll ay " + GetAllowanceTotal);
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            
+            //get the final basic salary
+            try{
+                DbConn.SQLQuery = "select pd_finalbasic from tblpayrolldetails where pd_empname=? "
+                        + "and pd_datemonth=? and pd_dateyear=?";
+                DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
+                DbConn.pstmt.setString(1, cmbEmployeePayroll.getSelectedItem().toString());
+                DbConn.pstmt.setString(2, cmbMonthPayroll.getSelectedItem().toString());
+                DbConn.pstmt.setString(3, cmbYearPayroll.getSelectedItem().toString());
+                DbConn.rs = DbConn.pstmt.executeQuery();
+                if (DbConn.rs.next()){
+                    GetFinalBasic = DbConn.rs.getDouble(1);
+                    //tablePayroll.setModel(DbUtils.resultSetToTableModel(DbConn.rs));
+                }
+                DbConn.pstmt.close();
+                System.out.println("total payroll ay " + GetFinalBasic);
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            System.out.println("total amount mo ay " + (GetAllowanceTotal + GetFinalBasic));
+    }//GEN-LAST:event_btnViewPayrollActionPerformed
+
+    private void btnPrintPayrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintPayrollActionPerformed
+        //int row = tablePayroll.getSelectedRow();
+        //int ba = tablePayroll.convertRowIndexToModel(row);
+         Map param = new HashMap();
+            param.put("GetYear", cmbYearPayroll.getSelectedItem().toString());
+            param.put("GetMonth", cmbMonthPayroll.getSelectedItem().toString());
+            param.put("EmpName", cmbEmployeePayroll.getSelectedItem().toString());
+
+            try{                
+                //view letter offer
+                DbConn.conn.close();
+                Class.forName("com.mysql.jdbc.Driver");
+                DbConn.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbeshr?autoReconnect=true","root","root");
+                JasperDesign jd = JRXmlLoader.load(new File("src\\HRReports\\reportSalarySlip.jrxml"));
+                JasperReport jr = JasperCompileManager.compileReport(jd);
+                JasperPrint jp = JasperFillManager.fillReport(jr, param,DbConn.conn);
+                JasperViewer.viewReport(jp,false);
+
+            }catch(ClassNotFoundException | SQLException | JRException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            
+    }//GEN-LAST:event_btnPrintPayrollActionPerformed
 
     /**
      * @param args the command line arguments
@@ -501,9 +679,14 @@ DbConnection DbConn = new DbConnection();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPrintPayroll;
+    private javax.swing.JButton btnViewPayroll;
     private javax.swing.JComboBox<String> cmbDepartment;
     private javax.swing.JComboBox<String> cmbDesignation;
+    private javax.swing.JComboBox<String> cmbEmployeePayroll;
+    private javax.swing.JComboBox<String> cmbMonthPayroll;
     private javax.swing.JComboBox<String> cmbNationality;
+    private javax.swing.JComboBox<String> cmbYearPayroll;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -513,7 +696,10 @@ DbConnection DbConn = new DbConnection();
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -526,6 +712,8 @@ DbConnection DbConn = new DbConnection();
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

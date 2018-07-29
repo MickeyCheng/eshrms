@@ -35,6 +35,7 @@ DbConnection DbConn = new DbConnection();
         FillComboMonthsAndYears();
         setLocationRelativeTo(null);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(frmPayrollMonthProcess.DISPOSE_ON_CLOSE);
         cmbEmployee.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {GetEmpId();
@@ -128,6 +129,7 @@ DbConnection DbConn = new DbConnection();
         jLabel19 = new javax.swing.JLabel();
         cmbYear = new javax.swing.JComboBox<>();
         txtMonthdays = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -141,7 +143,7 @@ DbConnection DbConn = new DbConnection();
 
         jLabel16.setForeground(new java.awt.Color(0, 51, 51));
         jLabel16.setText("Month:");
-        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 50, 20));
+        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 50, 20));
 
         cmbEmployee.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(cmbEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 330, -1));
@@ -159,7 +161,7 @@ DbConnection DbConn = new DbConnection();
         ));
         jScrollPane1.setViewportView(tableAttendance);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 470, 360));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 470, 340));
 
         jButton4.setBackground(new java.awt.Color(51, 153, 0));
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
@@ -169,7 +171,7 @@ DbConnection DbConn = new DbConnection();
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 160, -1));
+        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 160, -1));
 
         jButton5.setBackground(new java.awt.Color(0, 0, 153));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
@@ -183,20 +185,22 @@ DbConnection DbConn = new DbConnection();
 
         jLabel18.setForeground(new java.awt.Color(0, 51, 51));
         jLabel18.setText("Employee:");
-        jPanel2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 100, 20));
+        jPanel2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 70, 20));
 
         cmbMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel2.add(cmbMonth, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, 110, -1));
+        jPanel2.add(cmbMonth, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 100, -1));
 
         jLabel19.setForeground(new java.awt.Color(0, 51, 51));
-        jLabel19.setText("Year:");
-        jPanel2.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, 50, 20));
+        jLabel19.setText("Days In Months:");
+        jPanel2.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 100, 20));
 
         cmbYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel2.add(cmbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, 110, -1));
+        jPanel2.add(cmbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, 100, -1));
+        jPanel2.add(txtMonthdays, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 50, -1));
 
-        txtMonthdays.setText("jTextField1");
-        jPanel2.add(txtMonthdays, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 90, -1, -1));
+        jLabel20.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel20.setText("Year:");
+        jPanel2.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, 30, 20));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 490, 580));
 
@@ -314,7 +318,7 @@ Vector headers = new Vector();
             int i = 0;
             while (i<tableAttendance.getRowCount()){
                 DbConn.SQLQuery = "insert into tblpayout (po_empname,po_empid,po_empdepartment,po_empdesignation,po_basicsalary,"
-                        + "po_datemonth,po_dateyear,po_absent,po_processedby,po_finalbasic) values(?,?,?,?,?,?,?,?,?,?)";
+                        + "po_datemonth,po_dateyear,po_absent,po_processedby,po_finalbasic,po_status) values(?,?,?,?,?,?,?,?,?,?,?)";
                 DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
                 DbConn.pstmt.setString(1, tableAttendance.getModel().getValueAt(i, 0).toString());
                 DbConn.pstmt.setString(2, tableAttendance.getModel().getValueAt(i, 1).toString());
@@ -329,6 +333,7 @@ Vector headers = new Vector();
                 double GetPerDay = Double.parseDouble(tableAttendance.getModel().getValueAt(i, 4).toString()) / Integer.parseInt(txtMonthdays.getText());
                 double GetAbsentCalc = GetPerDay * Integer.parseInt(tableAttendance.getModel().getValueAt(i, 5).toString());
                 DbConn.pstmt.setDouble(10, Double.parseDouble(DbConn.df.format(Double.parseDouble(tableAttendance.getModel().getValueAt(i, 4).toString()) - GetAbsentCalc)));
+                DbConn.pstmt.setString(11, "Submitted");
                 DbConn.pstmt.execute();
                 DbConn.pstmt.close();
                 i++;
@@ -384,6 +389,7 @@ Vector headers = new Vector();
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

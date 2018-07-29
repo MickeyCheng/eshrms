@@ -13,7 +13,8 @@ public class DbConnection {
     ResultSet rs;
     PreparedStatement pstmt;
     Connection conn;
-    String SQLQuery,GetLoggedInUserName;
+    String SQLQuery;
+    public static String GetLoggedInUserName,GetLoggedInID,GetLoggedInDepartment;
     int GetEmpIDToSave;
     Date DateToday = new Date();
     SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");

@@ -49,6 +49,8 @@ public static String PromoteID,PromoteName,PromoteCurrentDes,PromoteProposedDes,
         FillPromotionList();
         FillApprovingPersonnel();
         SetTablesSorter();
+        SetHeaderAttachmentTable();
+        FillTableLeave();
         setDefaultCloseOperation(frmEmployeeProfile.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLocationRelativeTo(null);
@@ -73,6 +75,19 @@ public static String PromoteID,PromoteName,PromoteCurrentDes,PromoteProposedDes,
     }
     });
 
+    }
+    private void SetHeaderAttachmentTable(){
+        tableDocument.getColumnModel().getColumn(0).setHeaderValue("ID");
+        tableDocument.getColumnModel().getColumn(1).setHeaderValue("TYPE");
+        tableDocument.getColumnModel().getColumn(2).setHeaderValue("DOC DATE");
+        tableDocument.getColumnModel().getColumn(3).setHeaderValue("DOC ID");
+        tableDocument.getColumnModel().getColumn(4).setHeaderValue("EXPIRY");
+        tableDocument.getColumnModel().getColumn(5).setHeaderValue("PATH");
+        tableDocument.getColumnModel().getColumn(6).setHeaderValue("EMP ID");
+        tableDocument.getColumnModel().getColumn(7).setHeaderValue("NAME");
+        
+        tableDocument.removeColumn(tableDocument.getColumnModel().getColumn(9));
+        tableDocument.removeColumn(tableDocument.getColumnModel().getColumn(8));
     }
     private void TextSearchListen(){
         try{
@@ -466,7 +481,7 @@ public static String PromoteID,PromoteName,PromoteCurrentDes,PromoteProposedDes,
         jTable6 = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        tableLeave = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jLabel44 = new javax.swing.JLabel();
         cmbPromoteStatus = new javax.swing.JComboBox<>();
@@ -779,7 +794,7 @@ public static String PromoteID,PromoteName,PromoteCurrentDes,PromoteProposedDes,
         ));
         jScrollPane3.setViewportView(tableAllowance);
 
-        jPanel3.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, 920, 220));
+        jPanel3.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 650, 220));
 
         cmbAllowance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel3.add(cmbAllowance, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 220, -1));
@@ -891,6 +906,11 @@ public static String PromoteID,PromoteName,PromoteCurrentDes,PromoteProposedDes,
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableDocument.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableDocumentMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tableDocument);
 
         jPanel5.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, 770, 230));
@@ -972,7 +992,7 @@ public static String PromoteID,PromoteName,PromoteCurrentDes,PromoteProposedDes,
         jPanel7.setBackground(new java.awt.Color(214, 214, 194));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        tableLeave.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -983,7 +1003,7 @@ public static String PromoteID,PromoteName,PromoteCurrentDes,PromoteProposedDes,
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane6.setViewportView(jTable5);
+        jScrollPane6.setViewportView(tableLeave);
 
         jPanel7.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1250, 230));
 
@@ -1284,6 +1304,31 @@ public static String PromoteID,PromoteName,PromoteCurrentDes,PromoteProposedDes,
         AddBasicDetails=true;
         EditBasicDetails=false;
     }//GEN-LAST:event_jButton1ActionPerformed
+    private void FillTableLeave(){
+        DbConn.GetEmpIdForProfile(lblEmployeeName.getText());
+        try{
+            DbConn.pstmt = DbConn.conn.prepareStatement("Select le_seqno,le_datefiled,le_days,le_datefrom,le_dateto,le_leavetype,le_remarks,le_status"
+                    + " from tblleave where le_empname =? and le_empid=?");
+            DbConn.pstmt.setString(1, lblEmployeeName.getText());
+            DbConn.pstmt.setString(2, String.valueOf(DbConn.GetEmpIDToSave));
+            DbConn.rs = DbConn.pstmt.executeQuery();
+            tableLeave.setModel(DbUtils.resultSetToTableModel(DbConn.rs));
+            DbConn.pstmt.close();
+            SetHeaderTableLeave();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, "Leave Table");
+        }
+    }
+    private void SetHeaderTableLeave(){
+        tableLeave.getColumnModel().getColumn(0).setHeaderValue("ID");
+        tableLeave.getColumnModel().getColumn(1).setHeaderValue("FILED");
+        tableLeave.getColumnModel().getColumn(2).setHeaderValue("FROM");
+        tableLeave.getColumnModel().getColumn(3).setHeaderValue("TO");
+        tableLeave.getColumnModel().getColumn(4).setHeaderValue("DAYS");
+        tableLeave.getColumnModel().getColumn(5).setHeaderValue("TYPE");
+        tableLeave.getColumnModel().getColumn(6).setHeaderValue("REMARKS");
+        tableLeave.getColumnModel().getColumn(0).setHeaderValue("STATUS");
+    }
     private void FillTableAllowance(){
         DbConn.GetEmpIdForProfile(lblEmployeeName.getText());
         try{
@@ -1303,9 +1348,76 @@ public static String PromoteID,PromoteName,PromoteCurrentDes,PromoteProposedDes,
         tableAllowance.getColumnModel().getColumn(1).setHeaderValue("TYPE");
         tableAllowance.getColumnModel().getColumn(2).setHeaderValue("AMOUNT");
     }
+    private void updateSalaryProfile(){
+        try{
+            DbConn.pstmt = DbConn.conn.prepareStatement("Update tblemployeeprofile set em_basicsalary=? where em_name=? and em_seqno=?");
+            Double GetAmount = Double.valueOf(txtAmount.getText());
+            DbConn.pstmt.setDouble(1, Double.valueOf(DbConn.df.format(GetAmount)));
+            DbConn.pstmt.setString(3, lblEmpID.getText());
+            DbConn.pstmt.setString(2, lblEmployeeName.getText());
+            DbConn.pstmt.executeUpdate();
+            DbConn.pstmt.close();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         DbConn.GetEmpIdForProfile(lblEmployeeName.getText());
         boolean ExistingRecords = false;
+        
+        if (cmbAllowance.getSelectedItem().toString().equals("Basic Salary")){
+        //check if records exists
+         try{
+            DbConn.SQLQuery = "select * from tblbasicsalary where bs_empname=? and bs_empid=?";
+            DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
+            DbConn.pstmt.setString(1, lblEmployeeName.getText());
+            DbConn.pstmt.setString(2, lblEmpID.getText());
+            DbConn.rs = DbConn.pstmt.executeQuery();
+            if (DbConn.rs.next()){
+                ExistingRecords = true;
+            }else{
+                ExistingRecords=false;
+            }
+            DbConn.pstmt.close();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        
+        //save basic salary
+        if(ExistingRecords==false){
+            try{
+                DbConn.SQLQuery = "insert into tblbasicsalary (bs_empname,bs_empid,bs_salary) values (?,?,?)";
+                DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
+                DbConn.pstmt.setString(1, lblEmployeeName.getText());
+                DbConn.pstmt.setString(2, String.valueOf(DbConn.GetEmpIDToSave));
+                Double GetAmount = Double.valueOf(txtAmount.getText());
+                DbConn.pstmt.setDouble(3, Double.valueOf(DbConn.df.format(GetAmount)));
+                DbConn.pstmt.execute();
+                DbConn.pstmt.close();
+                updateSalaryProfile();
+                JOptionPane.showMessageDialog(this, "Basic Salary Saved");
+                return;
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+        }else if(ExistingRecords==true){
+            try{
+                DbConn.SQLQuery = "update tblbasicsalary set bs_salary=? where bs_empname =? and bs_empid=?";
+                DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
+                DbConn.pstmt.setString(2, lblEmployeeName.getText());
+                DbConn.pstmt.setString(3, String.valueOf(DbConn.GetEmpIDToSave));
+                Double GetAmount = Double.valueOf(txtAmount.getText());
+                DbConn.pstmt.setDouble(1, Double.valueOf(DbConn.df.format(GetAmount)));
+                DbConn.pstmt.executeUpdate();
+                DbConn.pstmt.close();
+                updateSalaryProfile();
+                JOptionPane.showMessageDialog(this, "Basic Salary Updated");
+                return;
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+        }
+        }
         try{
             DbConn.SQLQuery = "select * from tblallowance where al_type=? and al_empname=? and al_empid=?";
             DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
@@ -1356,7 +1468,7 @@ public static String PromoteID,PromoteName,PromoteCurrentDes,PromoteProposedDes,
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_jButton8ActionPerformed
-
+    
     private void tableEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEmployeeMouseClicked
         int row = tableEmployee.getSelectedRow();
         int ba = tableEmployee.convertRowIndexToModel(row); 
@@ -1387,6 +1499,8 @@ public static String PromoteID,PromoteName,PromoteCurrentDes,PromoteProposedDes,
         FillTableAllowance();
         FillTrainingDocumentTable();
         FillTrainingTable();
+        SetHeaderAttachmentTable();
+        FillTableLeave();
     }//GEN-LAST:event_tableEmployeeMouseClicked
    
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -1683,6 +1797,10 @@ private void FillTrainingDocumentTable(){
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void tableDocumentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDocumentMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tableDocumentMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1834,7 +1952,6 @@ private void FillTrainingDocumentTable(){
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable5;
     private javax.swing.JTable jTable6;
     private javax.swing.JLabel lblDepartment;
     private javax.swing.JLabel lblEmpID;
@@ -1846,6 +1963,7 @@ private void FillTrainingDocumentTable(){
     private javax.swing.JTable tableAllowance;
     private javax.swing.JTable tableDocument;
     private javax.swing.JTable tableEmployee;
+    private javax.swing.JTable tableLeave;
     private javax.swing.JTable tablePromotionList;
     private javax.swing.JTable tableTraining;
     private javax.swing.JTextField txtAccountNumber;

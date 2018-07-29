@@ -3,10 +3,22 @@ package HRM;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 
 public class frmDashboard extends javax.swing.JFrame {
@@ -16,6 +28,9 @@ String getApprovingPersonnel;
     public frmDashboard() {
         initComponents();
         DbConn.DoConnect();
+        lblName.setText(DbConn.GetLoggedInUserName);
+        lblEmpID.setText(DbConn.GetLoggedInID);
+        lblDepartment.setText(DbConn.GetLoggedInDepartment);
         SetDate();
         FillLeaveType();
         FillTableLeave();
@@ -29,8 +44,10 @@ String getApprovingPersonnel;
         setLocationRelativeTo(null);
         dateReturn.setEnabled(false);
         radAnnualTicket.setSelected(true);
+        SetHeaderTables();
         //PanelWorkLoad.setVisible(false);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(frmDashboard.DISPOSE_ON_CLOSE);
         dateEndLeave.getDateEditor().addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -44,6 +61,46 @@ String getApprovingPersonnel;
             }
         });
     }
+    private void SetHeaderTables(){
+        //leave details
+        tblLeaveApplication.getColumnModel().getColumn(0).setHeaderValue("FILED");
+        tblLeaveApplication.getColumnModel().getColumn(1).setHeaderValue("DAYS");
+        tblLeaveApplication.getColumnModel().getColumn(2).setHeaderValue("FROM");
+        tblLeaveApplication.getColumnModel().getColumn(3).setHeaderValue("TO");
+        tblLeaveApplication.getColumnModel().getColumn(4).setHeaderValue("TYPE");
+        tblLeaveApplication.getColumnModel().getColumn(5).setHeaderValue("REMARKS");
+        tblLeaveApplication.getColumnModel().getColumn(6).setHeaderValue("STATUS");
+        
+        //air ticket requests
+        tableTicketRequest.getColumnModel().getColumn(0).setHeaderValue("ID");
+        tableTicketRequest.getColumnModel().getColumn(1).setHeaderValue("DEPARTURE");
+        tableTicketRequest.getColumnModel().getColumn(2).setHeaderValue("RETURN");
+        tableTicketRequest.getColumnModel().getColumn(3).setHeaderValue("FILED");
+        tableTicketRequest.getColumnModel().getColumn(4).setHeaderValue("DESTINATION");
+        tableTicketRequest.getColumnModel().getColumn(5).setHeaderValue("TYPE");
+        tableTicketRequest.getColumnModel().getColumn(6).setHeaderValue("STATUS");
+        
+        //WORKLOAD
+        //LEAVE APPROVAL
+        tblLeaveApproval.getColumnModel().getColumn(0).setHeaderValue("ID");
+        tblLeaveApproval.getColumnModel().getColumn(1).setHeaderValue("NAME");
+        tblLeaveApproval.getColumnModel().getColumn(2).setHeaderValue("FILED");
+        tblLeaveApproval.getColumnModel().getColumn(3).setHeaderValue("DAYS");
+        tblLeaveApproval.getColumnModel().getColumn(4).setHeaderValue("TYPE");
+        tblLeaveApproval.getColumnModel().getColumn(5).setHeaderValue("REMARKS");
+        //AIR TICKET REQ
+        tableAirTicketWL.getColumnModel().getColumn(0).setHeaderValue("ID");
+        tableAirTicketWL.getColumnModel().getColumn(1).setHeaderValue("NAME");
+        tableAirTicketWL.getColumnModel().getColumn(2).setHeaderValue("FILED");
+        tableAirTicketWL.getColumnModel().getColumn(3).setHeaderValue("TYPE");
+        //TABLE REQUESTS
+        tableRequestsWL.getColumnModel().getColumn(0).setHeaderValue("ID");
+        tableRequestsWL.getColumnModel().getColumn(1).setHeaderValue("NAME");
+        tableRequestsWL.getColumnModel().getColumn(2).setHeaderValue("FILED");
+        tableRequestsWL.getColumnModel().getColumn(3).setHeaderValue("REQUEST");
+        tableRequestsWL.getColumnModel().getColumn(4).setHeaderValue("STATUS");
+    }
+    
     private void  FillTableTemplateRequest(){
         try{
             DbConn.SQLQuery = "select tr_seqno,tr_requestdate,tr_request,tr_datefiled,tr_status "
@@ -163,6 +220,25 @@ String getApprovingPersonnel;
 
         ticketGroup = new javax.swing.ButtonGroup();
         templateGroup = new javax.swing.ButtonGroup();
+        jPanel8 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jSeparator7 = new javax.swing.JSeparator();
+        jLabel28 = new javax.swing.JLabel();
+        dateTemplateReq = new com.toedter.calendar.JDateChooser();
+        radExperience = new javax.swing.JRadioButton();
+        radSalaryCertificate = new javax.swing.JRadioButton();
+        jLabel29 = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        txtAreaTemplateComment = new javax.swing.JTextArea();
+        jLabel30 = new javax.swing.JLabel();
+        btnSaveTemplateReq = new javax.swing.JButton();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        tableTemplateRequest = new javax.swing.JTable();
+        jSeparator8 = new javax.swing.JSeparator();
+        jButton8 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
@@ -265,25 +341,104 @@ String getApprovingPersonnel;
         jSeparator6 = new javax.swing.JSeparator();
         jButton5 = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jSeparator7 = new javax.swing.JSeparator();
-        jLabel28 = new javax.swing.JLabel();
-        dateTemplateReq = new com.toedter.calendar.JDateChooser();
-        radExperience = new javax.swing.JRadioButton();
-        radSalaryCertificate = new javax.swing.JRadioButton();
-        jLabel29 = new javax.swing.JLabel();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        txtAreaTemplateComment = new javax.swing.JTextArea();
-        jLabel30 = new javax.swing.JLabel();
-        btnSaveTemplateReq = new javax.swing.JButton();
-        jLabel32 = new javax.swing.JLabel();
-        jLabel31 = new javax.swing.JLabel();
-        jPanel14 = new javax.swing.JPanel();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        tableTemplateRequest = new javax.swing.JTable();
-        jSeparator8 = new javax.swing.JSeparator();
-        jButton8 = new javax.swing.JButton();
+
+        jPanel8.setBackground(new java.awt.Color(214, 214, 194));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
+        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jSeparator7.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel9.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 410, 10));
+
+        jLabel28.setText("Comment:");
+        jPanel9.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 120, 20));
+
+        dateTemplateReq.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                dateTemplateReqMouseReleased(evt);
+            }
+        });
+        jPanel9.add(dateTemplateReq, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 260, 30));
+
+        templateGroup.add(radExperience);
+        radExperience.setText("Experience Letter");
+        jPanel9.add(radExperience, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, -1, -1));
+
+        templateGroup.add(radSalaryCertificate);
+        radSalaryCertificate.setText("Salary Certificate");
+        jPanel9.add(radSalaryCertificate, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, -1, -1));
+
+        jLabel29.setText("Request Date:");
+        jPanel9.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 20));
+
+        txtAreaTemplateComment.setColumns(20);
+        txtAreaTemplateComment.setRows(5);
+        jScrollPane9.setViewportView(txtAreaTemplateComment);
+
+        jPanel9.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 250, 90));
+
+        jLabel30.setText("Letter Template:");
+        jPanel9.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 120, 20));
+
+        btnSaveTemplateReq.setBackground(new java.awt.Color(0, 0, 153));
+        btnSaveTemplateReq.setForeground(new java.awt.Color(255, 255, 255));
+        btnSaveTemplateReq.setText("Submit Request");
+        btnSaveTemplateReq.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveTemplateReqActionPerformed(evt);
+            }
+        });
+        jPanel9.add(btnSaveTemplateReq, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 320, -1, -1));
+
+        jPanel8.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 430, 400));
+
+        jLabel32.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        jLabel32.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel32.setText("Template Requests");
+        jPanel8.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 230, -1));
+
+        jLabel31.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        jLabel31.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel31.setText("My Template Requests");
+        jPanel8.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, 230, -1));
+
+        jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tableTemplateRequest.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tableTemplateRequest.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableTemplateRequestMouseClicked(evt);
+            }
+        });
+        jScrollPane10.setViewportView(tableTemplateRequest);
+
+        jPanel14.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 440, 290));
+
+        jSeparator8.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel14.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 430, 10));
+
+        jButton8.setBackground(new java.awt.Color(153, 0, 0));
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        jButton8.setText("Cancel Request");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, 120, -1));
+
+        jPanel8.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 50, 460, 400));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -834,106 +989,6 @@ String getApprovingPersonnel;
 
         jTabbedPane1.addTab("Air Ticket Request", jPanel10);
 
-        jPanel8.setBackground(new java.awt.Color(214, 214, 194));
-        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel9.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
-        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jSeparator7.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel9.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 410, 10));
-
-        jLabel28.setText("Comment:");
-        jPanel9.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 120, 20));
-
-        dateTemplateReq.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                dateTemplateReqMouseReleased(evt);
-            }
-        });
-        jPanel9.add(dateTemplateReq, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 260, 30));
-
-        templateGroup.add(radExperience);
-        radExperience.setText("Experience Letter");
-        jPanel9.add(radExperience, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, -1, -1));
-
-        templateGroup.add(radSalaryCertificate);
-        radSalaryCertificate.setText("Salary Certificate");
-        jPanel9.add(radSalaryCertificate, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, -1, -1));
-
-        jLabel29.setText("Request Date:");
-        jPanel9.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 20));
-
-        txtAreaTemplateComment.setColumns(20);
-        txtAreaTemplateComment.setRows(5);
-        jScrollPane9.setViewportView(txtAreaTemplateComment);
-
-        jPanel9.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 250, 90));
-
-        jLabel30.setText("Letter Template:");
-        jPanel9.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 120, 20));
-
-        btnSaveTemplateReq.setBackground(new java.awt.Color(0, 0, 153));
-        btnSaveTemplateReq.setForeground(new java.awt.Color(255, 255, 255));
-        btnSaveTemplateReq.setText("Submit Request");
-        btnSaveTemplateReq.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveTemplateReqActionPerformed(evt);
-            }
-        });
-        jPanel9.add(btnSaveTemplateReq, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 320, -1, -1));
-
-        jPanel8.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 430, 400));
-
-        jLabel32.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        jLabel32.setForeground(new java.awt.Color(0, 51, 51));
-        jLabel32.setText("Template Requests");
-        jPanel8.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 230, -1));
-
-        jLabel31.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        jLabel31.setForeground(new java.awt.Color(0, 51, 51));
-        jLabel31.setText("My Template Requests");
-        jPanel8.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, 230, -1));
-
-        jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        tableTemplateRequest.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tableTemplateRequest.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableTemplateRequestMouseClicked(evt);
-            }
-        });
-        jScrollPane10.setViewportView(tableTemplateRequest);
-
-        jPanel14.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 440, 290));
-
-        jSeparator8.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel14.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 430, 10));
-
-        jButton8.setBackground(new java.awt.Color(153, 0, 0));
-        jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("Cancel Request");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-        jPanel14.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, 120, -1));
-
-        jPanel8.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 50, 460, 400));
-
-        jTabbedPane1.addTab("Letter Template Request", jPanel8);
-
         jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 1510, 500));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1131,8 +1186,11 @@ String getApprovingPersonnel;
     }//GEN-LAST:event_btnSaveAirTicketActionPerformed
     private void FillTableRequest(){
         try{
-            DbConn.SQLQuery="select tr_seqno,tr_departure,tr_return,tr_datefiled,tr_destination,tr_type,tr_status from tblticketrequest order by tr_datefiled";
+            DbConn.SQLQuery="select tr_seqno,tr_departure,tr_return,tr_datefiled,tr_destination,tr_type,tr_status "
+                    + "from tblticketrequest where tr_empname=? and tr_empid=? order by tr_datefiled";
             DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
+            DbConn.pstmt.setString(1, DbConn.GetLoggedInUserName);
+            DbConn.pstmt.setString(2, DbConn.GetLoggedInID);
             DbConn.rs = DbConn.pstmt.executeQuery();
             tableTicketRequest.setModel(DbUtils.resultSetToTableModel(DbConn.rs));
             DbConn.pstmt.close();
@@ -1248,23 +1306,41 @@ String getApprovingPersonnel;
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        int row = tableRequestsWL.getSelectedRow();
-        int ba = tableRequestsWL.convertRowIndexToModel(row);
-        try{
-            DbConn.SQLQuery="update tbltemplaterequest set tr_status=? where tr_seqno=?";
-            DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
-            DbConn.pstmt.setString(1, "Approved");
-            DbConn.pstmt.setString(2, tableRequestsWL.getModel().getValueAt(ba, 0).toString());
-            DbConn.pstmt.executeUpdate();
-            DbConn.pstmt.close();
-            JOptionPane.showMessageDialog(this, "Request status updated successfully");
-            FillTemplateReqWL();
-            FillTableTemplateRequest();
-        }catch(SQLException e){
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+//        int row = tableRequestsWL.getSelectedRow();
+//        int ba = tableRequestsWL.convertRowIndexToModel(row);
+//        try{
+//            DbConn.SQLQuery="update tbltemplaterequest set tr_status=? where tr_seqno=?";
+//            DbConn.pstmt = DbConn.conn.prepareStatement(DbConn.SQLQuery);
+//            DbConn.pstmt.setString(1, "Approved");
+//            DbConn.pstmt.setString(2, tableRequestsWL.getModel().getValueAt(ba, 0).toString());
+//            DbConn.pstmt.executeUpdate();
+//            DbConn.pstmt.close();
+//            JOptionPane.showMessageDialog(this, "Request status updated successfully");
+//            FillTemplateReqWL();
+//            FillTableTemplateRequest();
+            PrintSalaryCertificate();
+//        }catch(SQLException e){
+//            JOptionPane.showMessageDialog(this, e.getMessage());
+//        }
     }//GEN-LAST:event_jButton9ActionPerformed
-
+    private void PrintSalaryCertificate(){
+            int row = tableRequestsWL.getSelectedRow();
+            int ba = tableRequestsWL.convertRowIndexToModel(row);
+            Map param = new HashMap();
+            param.put("GetEmpName", tableRequestsWL.getModel().getValueAt(ba, 1).toString());
+            try{                
+                //view letter offer
+                DbConn.conn.close();
+                Class.forName("com.mysql.jdbc.Driver");
+                DbConn.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbeshr?autoReconnect=true","root","root");
+                JasperDesign jd = JRXmlLoader.load(new File("src\\HRReports\\reportSalaryCertificate.jrxml"));
+                JasperReport jr = JasperCompileManager.compileReport(jd);
+                JasperPrint jp = JasperFillManager.fillReport(jr, param,DbConn.conn);
+                JasperViewer.viewReport(jp,false);
+            }catch(ClassNotFoundException | SQLException | JRException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+    }
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton10ActionPerformed

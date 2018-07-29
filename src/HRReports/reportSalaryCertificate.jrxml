@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ae3cfb2c-ca6e-4822-803c-2f18cf052f5c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="GetEmpName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select tblallowance.al_empname,tblallowance.al_empid, tblallowance.al_empid, tblallowance.al_type, tblallowance.al_amount,tblemployeeprofile.em_designation,tblemployeeprofile.em_joindate,
+tblemployeeprofile.em_nationalid,tblemployeeprofile.em_basicsalary
+from tblallowance 
+LEFT JOIN tblemployeeprofile
+ON tblallowance.al_empid=tblemployeeprofile.em_seqno where tblallowance.al_empname = $P{GetEmpName}]]>
+	</queryString>
+	<field name="al_empname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="al_empid" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="al_type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="al_amount" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="em_designation" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="em_joindate" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="em_nationalid" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="em_basicsalary" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="170" y="0" width="263" height="62" uuid="37d26f31-94ee-4e7d-a2b7-8074f19401a3"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Coffee Title]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="219" y="62" width="196" height="22" uuid="a4f89ad1-d8c3-4685-913c-108fdd5ee390"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Salary Certificate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="172" y="94" width="383" height="42" uuid="a7b26a7c-834b-4123-9656-af1adc0b40ac"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor purus gravida arcu aliquam mattis. Donec et nulla libero, ut varius massa. Nulla sed turpis elit. Etiam aliquet mauris a ligula hendrerit in auctor leo lobortis.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="214" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="75ae6911-1a9c-40d7-a524-c558ec283469"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="-1" y="43" width="132" height="20" uuid="653a8ec1-c70f-4d77-9dbd-77fa77b84125"/>
+				<text><![CDATA[This is to certify that ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="63" width="132" height="20" uuid="1704450d-7d8c-4dd7-bd9b-b02e70b7c314"/>
+				<text><![CDATA[with Bahrain CPR no. :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="83" width="272" height="20" uuid="78c5a1ca-38a4-459c-a387-c40fc4ee4a62"/>
+				<text><![CDATA[is working with our esteem organization under the title of]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="119" width="551" height="34" uuid="fc4e8397-9891-4c69-95ba-92ef0b558d58"/>
+				<text><![CDATA[We are issuing this letter on the specific request of our employee without accepting any liability on behalf of this letter or part of this letter on our organization. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="153" width="551" height="19" uuid="bd841d21-033e-4cdb-bce5-42bb0b718115"/>
+				<text><![CDATA[The salary particulars are as below:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="172" width="68" height="20" uuid="d4983346-5b45-4f04-aa74-cc8b790e2e40"/>
+				<text><![CDATA[Basic Salary:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="192" width="68" height="20" uuid="346ae96a-867a-4bdf-ac59-da7cfde85c53"/>
+				<text><![CDATA[Allowance:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="118" y="43" width="313" height="20" uuid="14c41301-0743-478d-bc15-6265b4f3e15f"/>
+				<textFieldExpression><![CDATA[$F{al_empname}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="415" y="83" width="39" height="20" uuid="c80bc996-87d4-4f21-afe4-151124971170"/>
+				<text><![CDATA[since]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="15" width="132" height="20" uuid="62035d56-61b8-4418-b645-fbdef029d001"/>
+				<text><![CDATA[To whom it may concern: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="118" y="63" width="232" height="20" uuid="a8629d63-f5fc-4a97-b021-7a2e2f2714e2"/>
+				<textFieldExpression><![CDATA[$F{em_nationalid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="272" y="83" width="129" height="20" uuid="1eb9e94d-d67f-4732-ae49-1d644e75dcb7"/>
+				<textFieldExpression><![CDATA[$F{em_designation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="83" width="100" height="20" uuid="6d27f77d-d235-4ff8-9dba-02569e8bbb28"/>
+				<textFieldExpression><![CDATA[$F{em_joindate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="172" width="100" height="20" uuid="6f1c15b4-d567-4504-b173-311c76003020"/>
+				<textFieldExpression><![CDATA[$F{em_basicsalary}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="-1" y="0" width="100" height="20" uuid="092c4446-fa6d-4984-8489-6397a92935c0"/>
+				<textFieldExpression><![CDATA[$F{al_type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="99" y="0" width="100" height="20" uuid="fec3b110-b0d8-4e03-b3a1-e973eac95eae"/>
+				<textFieldExpression><![CDATA[$F{al_amount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="8dfb7a8c-ff7b-4065-b174-f9b56053433c"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="4" y="4" width="68" height="20" uuid="62ab73da-d993-4694-a491-77356be85fe7"/>
+				<text><![CDATA[Best  Regards,]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="c9147f07-227d-4e98-9e85-7637db12881e"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="7a762f11-92bb-458d-aedf-adc1a47cbf03"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="60533eb0-cbc5-4d3b-ba89-5def76dd5e23"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="4cfcc2f9-fca2-4a11-9dd2-7dc12352716b"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
